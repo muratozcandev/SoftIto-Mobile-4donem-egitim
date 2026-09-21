@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFrame</title>
+
+    <link rel="stylesheet" href="Apple.css">
+</head>
+
+<body>
+    <h1 style="text-align: center; margin-top: 0;">IPHONE DUO</h1>
+    <div class = "container">
+        <div class="card">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/MKSKxdKn2gs?si=-XYQmuYIkFOm3d1E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="card">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6025.408249122232!2d29.069564778980492!3d40.966060106377455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac7cb42c70659%3A0xa3f1fa45f1274b45!2sApple%20Store!5e0!3m2!1str!2str!4v1790018353696!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+    </div>
+    <br>
+    <h1 style="text-align: center;margin-top: 0;">STOK DURUMU</h1>
+    <div class="card2">
+        <h3>Iphone Duo Stok Durumu</h3>
+        <label for="p1">Stok</label>
+        <progress id="p1" value="75" max="100">75%</progress>
+        <div class="hint">Iphone Duo stok : %75 </div>
+        <hr style="margin : 16 px 0;border-top: 1px solid #e2e8f0 ;">
+
+        <label for="m1">Satılan Iphone Duo sayısı(%25):</label>
+        <meter value="25" id="m1" min="0" max="100" low="20" high="80" optimum="90"></meter>
+        <div class="hint" >Satılan telefon sayısı <strong>kırmızı</strong> renkle gösterilmiştir.(Satış sayısına göre)</div>
+        <br>
+        <label for="m2">Kullanıcı Deneyim Puanı:</label>
+        <meter value="95" id="m2" min="0" max="100" low="20" high ="80" optimum="90"></meter>
+        <div class="hint" >ideal seviyede olduğu için tarayıcı bunu otomatik olarak <strong>yeşil</strong> renkle gösterir</div>
+    </div>
+    <br>
+    <div class="box">
+        <h3>Sıkça sorulan sorular</h3>
+        <details open>
+            <summary>Kargo teslimatı süresi ne kadardır?</summary>
+            <p>Siparişleriniz aynı gün içerisinde kargoya verilir</p>
+        </details>
+
+        <details>
+            <summary>İade ve değişim şartları nelerdir?</summary>
+            <p>ürünü teslim aldığınız andan itibaren 14 gün içerisinde iade edebilirsiniz</p>
+        </details>
+
+        <details>
+            <summary>Taksit seçenekleri varmı?</summary>
+            <p>tüm kredi kartlarına vade farksız 3 taksit seçeneğimiz bulunmaktadır</p>
+        </details>
+
+        <details>
+            <summary>Telefonun katlama ömrü ne kadardır?</summary>
+            <p> Bağımsız laboratuvar testleri veya resmi bir "katlama ömrü" süresi henüz kamuoyuyla paylaşılmamıştır.</p>
+        </details>
+
+        <details>
+            <summary>Telefonun hangi renkleri mevcuttur?</summary>
+            <p>Siyah ve beyaz olmak üzere iki renk mevcuttur</p>
+        </details>
+
+    </div>
+
+    <div class="box">
+        <h3>Detaylı Bilgi</h3>
+        <p style="font-size: 13px; color:#64748b">Aşağıdaki butona basarak modalı açabilirsiniz</p>
+        <button class="btn-bilgi" onclick="document.getElementById('detayliBilgi').showModal()">Göster</button>
+    </div>
+
+    <dialog id="detayliBilgi">
+        <h3 style="margin-top: 0;">Detaylı Bilgi için hesaplarımızı takip ediniz</h3>
+        <p style="font-size: 13px;color:#475569;">Sosyal Medya Hesaplarımız</p>
+        <div
+            style="background:#f1f5f9; padding:10px;text-align: center;font-weight: bold;border-radius: 6px;color:black">
+            instagram : www.instagram.com/apple/ <br>X: x.com/Apple <br> Facebook:www.facebook.com/apple/?locale=tr_TR <br> youtube:www.youtube.com/@AppleTurkiye <br> tiktok: www.tiktok.com/@apple</div>
+        <div style="margin-top: 16px;text-align: right;">
+            <div>
+                <button onclick="document.getElementById('detayliBilgi').close()"
+                    style="padding:6px 12px;border-radius: 4px;cursor: pointer;">Kapat</button>
+            </div>
+        </div>
+    </dialog>
+</body>
+</html>
