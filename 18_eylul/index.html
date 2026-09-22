@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+    <h3>Mobil Sanal Klavye Girişleri</h3>
+    <form  id="mobilform" autocomplete="on">
+        <div class = "form-group">
+            <label for="txtName">Ad Soyad (Otomatik büyük harf)</label>
+            <input type="text" id=""txtName name = "full_name" placeholder="Vincezo İtaliano" autocomplete="name" autocapitalize="words" enterkeyhint="next">
+            <div class = "hint">autocapitalize = "words" her kelimenin ilk harfini büyük yapar</div>
+        </div>
+        <div clas = "form-group"> 
+            <label for="txtEmail">Eposta (düzelme kapalı)</label>
+            <input type="email" id = "txtEmail" name="email" placeholder="vincenzoitaliano@futbol.com" autocomplete="email" autocapitalize="none" enterkeyhint="next">
+            <div class = "hint">@ ve .com tuşlara eklenir</div>
+        </div>
+        <div class = "form-group">
+            <label for="textCard">Kredi kartı numarası(Sayısal tuş takımı)</label>
+            <input type="text" id="textCard" name="card_number" placeholder="1234 5678 9012 3456" autocomplete="cc_number" inputmode="numeric" maxlength="19" enterkeyhint="next">
+            <div class = "hint">inputmode="numeric" sayısal tuş takımı açar ok tuşları çıkmaz</div>
+        </div>
+        <div class = "form-group">
+            <label for="txtAmount" id = "txtAmount">Para transferi tutarı</label>
+            <input type="text" id="txtAmaount" name = "amaount" placeholder = "1.250,50" inputmode ="decimal" enterkeyhint="next">
+            <div class = "hint">Mobilde virgüllü noktalı ondalık sayı klavyesini açar</div>
+
+        </div>
+        <div class = "form form-group">
+            <label for="txtOtp">SMS doğrulama kodu</label>
+            <input type="text" id="txtOtp" placeholder = "123456" inputmode ="numeric" maxlength="6" autocomplete="one-time-code" enterkeyhint="done">
+            <div class = "hint">sms geldiğinde klavyede kodu doldur önerisi</div>
+        </div>
+    </form>
+</body>
+</html>

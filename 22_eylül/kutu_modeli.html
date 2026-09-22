@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Box Model & Taşma Koruması</title>
+    <link rel="stylesheet" href="kutu_modeli.css">
+
+    
+</head>
+
+<body>
+
+    <div class="box-container">
+
+        <!-- CONTENT-BOX ÖRNEĞİ -->
+        <h3>content-box (taşma yapan eleman)</h3>
+
+        <div class="broken-box">
+            Ekrandan dışarı taşan kutu
+        </div>
+
+
+        <!-- BORDER-BOX ÖRNEĞİ -->
+        <h3>border-box (kusursuz kutumuz)</h3>
+
+        <div class="fixed-box">
+            Taşma yapmayan kutu
+
+            <div
+                class="truncate-text"
+                title="Bu çok uzun bir IBAN veya sipariş numarası veya ekstra metin olabilir"
+            >
+                Lorem ipsum dolor sit amet concqwewqewqe qweqweqwe
+                qweqwe qweqwe qweqwewqe qweqweqwe qweqwe
+                qweqweqweq wewqe qweqweqwe qweqweqwe qweqwe
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
