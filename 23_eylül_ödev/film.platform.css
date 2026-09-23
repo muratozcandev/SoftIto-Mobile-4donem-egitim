@@ -89,7 +89,7 @@
      margin: 0 auto;
  }
 
- @media (min-width: 640px) {
+ @media (min-width: 768px) {
      .dashboard-grid {
          grid-template-columns: repeat(2, 1fr);
      }
