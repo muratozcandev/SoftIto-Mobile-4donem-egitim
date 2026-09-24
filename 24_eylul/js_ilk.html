@@ -1,0 +1,76 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS İLK DERS</title>
+ </head>
+ <body>
+    <script>
+        // //1. Var Felaketi 
+
+        // if(true){
+        //     var tehlikelisayi = 999;
+        // }
+        // console.log("var sızdı mı ?",tehlikelisayi);
+
+        // //2. let ve const kavramı
+
+        //     if(true){
+        //         let guvenlisayi = 42;
+        //         const pI = 3.14;
+        //         console.log("oda içi",guvenlisayi,pI);
+
+        //     }
+
+            
+
+        // //3. const değiştilmezlik kuralı
+
+        // const API_URL = "https://www.kodusta.com/v1";
+        // console.log(API_URL);
+
+        // const arac = {marka:"TOGG",model:"T10X"}
+        // console.log(arac);
+        // arac.renk="beyaz";
+        // console.log(arac); 
+
+        // //bu yasak kullanamazsın
+        // arac = {baska:"Obje"};
+        // console.log("arac"); 
+
+
+        // VERİ TİPLERİ & TİP DÖNÜŞÜMÜ
+
+        // console.log("5"+2);        // toplama olunca stringe çevirir
+        // console.log("5"-2);        // çıkarma olunca zorla sayıya çevirir 
+        // console.log("5"*"4");      // çarpma işlemi sayıya çevirir
+        // console.log("bes"*2);      // NaN not a number hatası alırız          bu işlemlere otomatik tip dönüşüm işlemi deriz
+      
+        // console.log(typeof NaN);
+        // console.log(NaN === NaN);
+        // console.log(Number.isNaN(NaN))
+
+        const bataryaSeviyesi = 14;
+        const istasyonUygunmu  = true;
+        const bakiyeTl = 400;
+        const minGirisTutarı = 200;
+
+        if(!istasyonUygunmu){
+            console.log("İstasyon şu anda servis dışı veya meşgul");
+
+        } else if (bakiyeTl < minGirisTutarı){
+            console.log(`bakiye yetersiz! en az${minGirisTutarı} gereklidir. Mevcut: ${bakiyeTl}`);
+
+        } else if (bataryaSeviyesi <=20) {
+            console.log("kritik seviyede ulta hızlı dc şarj moduna geçiliyor");
+
+        } else {
+            console.log("standart şarj başlatlşablir")
+        }
+
+
+
+    </script>
+ </body>
+ </html>

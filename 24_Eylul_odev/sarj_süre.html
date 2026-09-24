@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const sarjHesapla = (mevcutY, hedefY, bataryaKw, istasyonKw, geceMi) => {
+
+            const sarjYuzdesi = hedefY - mevcutY;
+            const sarjEnerjisi = (sarjYuzdesi / 100) * bataryaKw;
+            const sarjSuresi = sarjEnerjisi / istasyonKw;
+
+            let tarife;
+
+            if (geceMi) {
+                tarife = "Gece tarifesi";
+            } else {
+                tarife = "Gündüz tarifesi";
+            }
+
+            console.log(`Şarj Yüzdesi : %${sarjYuzdesi} \nŞarj Edilecek Enerji: ${sarjEnerjisi} kW \nŞarj Süresi : ${sarjSuresi} \nTarife: ${tarife}`);
+           
+        };
+
+        sarjHesapla(20, 80, 60, 11, true);
+    </script>
+</body>
+
+</html>
