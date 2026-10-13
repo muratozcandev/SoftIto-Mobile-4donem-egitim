@@ -30,6 +30,10 @@ void main () {
   controller.sink.add(20);
   controller.sink.add(30);
 
+  final broadcastStream = controller.stream.asBroadcastStream(); // birden fazla dinleyici eklenebilir
+  broadcastStream.listen((d) => print("UI Ekranı: $d"));
+  broadcastStream.listen((d) => print("Analitik servisi ekranı: $d"));
+
   controller.close();
 
 }
