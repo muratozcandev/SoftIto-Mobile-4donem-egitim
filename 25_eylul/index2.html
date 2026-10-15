@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const aracVerisi={
+            marka:"TOGG",
+            model:"T10X",
+            yil : 2026,
+            batarya:{
+                kapasiteKwh: 88.5,
+                kimya: "NMC",
+                garantiYil: 8,
+            },
+            renk: "Gece Mavisi"
+
+        };
+
+        const {marka, model,renk="Beyaz"} = aracVerisi;
+        console.log(`Araç: ${marka} ${model} | Renk: ${renk}`);
+
+        const {batarya : {kapasiteKwh: bataryaBoyutu, kimya }}= aracVerisi;
+        console.log(`Batarya ${bataryaBoyutu} Kwh, Hücre Kimyası: ${kimya}}`)    
+    
+    </script>
+</body>
+</html>
