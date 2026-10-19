@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const istasyonYonetim = {
+            kod: "TR-IST-006",
+            ad: "Kadıköy DC Hızlı Şarj",
+            kapasiteSoket : 4,
+            aktifSoketler:["Soket-A", "Soket-B"],
+            tarife:{
+                birimTL : 12,
+                geceİndirimYuzdesi : 20
+            },
+
+            musaitlikRaporu : function(){
+                const bostaAdet = this.kapasiteSoket - this.aktifSoketler.length
+                return `${this.ad} istanyonunda ${bostaAdet} adet soket boştadır`;
+            },
+
+            geceTarifesiHesapla : function(){
+                const indirim = this.tarife.birimTL * (this.tarife.geceİndirimYuzdesi / 100);
+                return this.tarife.birimTL - indirim
+            }   
+
+        };
+
+        console.log(istasyonYonetim.musaitlikRaporu());
+        console.log("Gece birim fiyatı", istasyonYonetim.geceTarifesiHesapla());
+        console.log("Keys",Object.keys(istasyonYonetim));
+        console.log("Values",Object.values(istasyonYonetim.tarife));
+
+
+
+    </script>
+</body>
+</html>
