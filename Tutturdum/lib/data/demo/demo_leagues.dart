@@ -1,0 +1,95 @@
+import '../models/football_models.dart';
+
+/// Tutturdum desteklenen 11 ligin tanımları
+abstract class DemoLeagues {
+  static const List<LeagueModel> leagues = [
+    LeagueModel(
+      id: 'super_lig',
+      name: 'Trendyol Süper Lig',
+      country: 'Türkiye',
+      logoEmoji: '🇹🇷',
+      teamCount: 18,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'premier_league',
+      name: 'Premier Lig',
+      country: 'İngiltere',
+      logoEmoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+      teamCount: 20,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'la_liga',
+      name: 'LaLiga',
+      country: 'İspanya',
+      logoEmoji: '🇪🇸',
+      teamCount: 20,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'serie_a',
+      name: 'Serie A',
+      country: 'İtalya',
+      logoEmoji: '🇮🇹',
+      teamCount: 20,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'bundesliga',
+      name: 'Bundesliga',
+      country: 'Almanya',
+      logoEmoji: '🇩🇪',
+      teamCount: 18,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'ligue_1',
+      name: 'Fransa Ligi (Ligue 1)',
+      country: 'Fransa',
+      logoEmoji: '🇫🇷',
+      teamCount: 18,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'liga_portugal',
+      name: 'Portekiz Ligi',
+      country: 'Portekiz',
+      logoEmoji: '🇵🇹',
+      teamCount: 18,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'eredivisie',
+      name: 'Hollanda Ligi',
+      country: 'Hollanda',
+      logoEmoji: '🇳🇱',
+      teamCount: 18,
+      isUefa: false,
+    ),
+    LeagueModel(
+      id: 'champions_league',
+      name: 'Şampiyonlar Ligi',
+      country: 'Avrupa',
+      logoEmoji: '⭐',
+      teamCount: 36,
+      isUefa: true,
+    ),
+    LeagueModel(
+      id: 'europa_league',
+      name: 'Avrupa Ligi',
+      country: 'Avrupa',
+      logoEmoji: '🏆',
+      teamCount: 36,
+      isUefa: true,
+    ),
+    LeagueModel(
+      id: 'conference_league',
+      name: 'Konferans Ligi',
+      country: 'Avrupa',
+      logoEmoji: '🛡️',
+      teamCount: 36,
+      isUefa: true,
+    ),
+  ];
+}
