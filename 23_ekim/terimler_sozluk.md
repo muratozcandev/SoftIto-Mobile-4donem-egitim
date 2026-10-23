@@ -157,10 +157,16 @@ Entity (Varlık): Saf iş nesnesidir. Bir şarj soketinin gerçek hayattaki öze
 Model / DTO (Data Transfer Object) : API den gelen ham JSON verisini karşılayan taşıyıcıdır. Entity den türer. fromJson ve toJson metotları barındırır.
 
 
-## 5.5. UseCase (Kullanım Seneryosu) 
+## 5.2. UseCase (Kullanım Seneryosu) 
 Kullanıcının veya sistemin gerçekleştirebileceği tek ve atomik bir iş kuralı
 Örnekler: StarChargingSessionUseCase , GetStationSocketUseCase, RefaundWalletBalanceUseCase
 Kural: Her UseCase sınıfının içinde sadece tek bir call() veya execute() fonksiyonu bulunur.
+
+## 5.3. Repository Contract vs Repository Implementation
+
+Contract (Domain katmanında) : Sözleşmedir( abstract interface class StationRepository) verinin nereden geleceğini bilmez.
+
+Implementation (Data Katmanında) : Sözleşmeyi uygulayan somut sınıftır. (class StationRepositoryImpls implements StationRepository) verinin önce yerel diskten mi yoksa internetten mi çekileceğini kara verir.
 
 
 
