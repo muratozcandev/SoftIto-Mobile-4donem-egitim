@@ -1,3 +1,305 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: vehicle_detail_view.dart
+// Görev: Seçilen aracın tüm teknik özelliklerini ve kiralama başlatma aksiyonunu sunar.
+// Açıklama: Motor gücü, menzil, yakıt türü, koltuk kapasitesi ve günlük fiyatı
+// net ve şık Material 3 kartlarıyla sergiler.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/locale_controller.dart';
+import '../models/vehicle_model.dart';
+import '../../rental/views/rental_view.dart';
+
+/// [VehicleDetailView] widget'ı, aracın detaylı bilgi ve kiralama ekranıdır.
+class VehicleDetailView extends StatelessWidget {
+  /// İncelenen araç nesnesi
+  final Vehicle vehicle;
+
+  const VehicleDetailView({super.key, required this.vehicle});
+
+  @override
+  Widget build(BuildContext context) {
+    final isEn = LocaleController.instance.isEnglish;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${vehicle.brand} ${vehicle.name}'),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 550),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // -----------------------------------------------------------
+                  // Üst Görsel Vitrini (Gerçek Araç Fotoğrafı)
+                  // -----------------------------------------------------------
+                  Container(
+                    height: 220,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(
+                        color: vehicle.accentColor.withValues(alpha: 0.35),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: vehicle.accentColor.withValues(alpha: 0.15),
+                          blurRadius: 18,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Image.asset(
+                        vehicle.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: vehicle.accentColor.withValues(alpha: 0.1),
+                            child: Icon(
+                              vehicle.displayIcon,
+                              size: 80,
+                              color: vehicle.accentColor,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // Başlık, Puan ve Fiyat Alanı
+                  // -----------------------------------------------------------
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              vehicle.brand.toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 1.2,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              vehicle.name,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Puan ve Tur Rozeti
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: AppColors.warning.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.warning.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.star_rounded,
+                              size: 18,
+                              color: AppColors.warning,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${vehicle.rating} (${vehicle.tripCount})',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.warning,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // -----------------------------------------------------------
+                  // Teknik Özellikler Izgarası (Grid)
+                  // -----------------------------------------------------------
+                  Text(
+                    AppStrings.specs(isEn),
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.speed_rounded,
+                          title: AppStrings.engine(isEn),
+                          value: vehicle.enginePower,
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.battery_charging_full_rounded,
+                          title: AppStrings.range(isEn),
+                          value: vehicle.range,
+                          isDark: isDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.tune_rounded,
+                          title: isEn ? 'Gear' : 'Vites',
+                          value: vehicle.transmission,
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.local_gas_station_rounded,
+                          title: AppStrings.fuel(isEn),
+                          value: vehicle.fuelType,
+                          isDark: isDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.event_seat_rounded,
+                          title: AppStrings.seats(isEn),
+                          value: '${vehicle.seats} ${isEn ? 'Persons' : 'Kişilik'}',
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildSpecCard(
+                          icon: Icons.category_rounded,
+                          title: isEn ? 'Body Type' : 'Kasa Tipi',
+                          value: vehicle.type,
+                          isDark: isDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 28),
+
+                  // -----------------------------------------------------------
+                  // Alt Sabit Fiyat ve Hemen Kirala Butonu
+                  // -----------------------------------------------------------
+                  Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppStrings.dailyPriceLabel(isEn),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '₺${vehicle.dailyPrice} ',
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w900,
+                                      color: isDark
+                                          ? AppColors.primary
+                                          : AppColors.primaryDark,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: AppStrings.perDay(isEn),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: isDark
+                                          ? AppColors.darkTextSecondary
+                                          : AppColors.lightTextSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RentalView(vehicle: vehicle),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.key_rounded, size: 18),
+                          label: Text(
+                            AppStrings.rentNow(isEn),
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/theme/theme_controller.dart';
@@ -337,21 +639,51 @@ class _VehicleDetailViewState extends State<VehicleDetailView> {
                           Icon(Icons.arrow_forward_rounded, size: 18),
                         ],
                       ),
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
                     ),
                   ),
                 ],
               ),
             ),
           ),
+<<<<<<< Updated upstream
         ],
+=======
+<<<<<<< HEAD
+        ),
+=======
+        ],
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
       ),
     );
   }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  /// Teknik özellik kartı oluşturucu
+  Widget _buildSpecCard({
+    required IconData icon,
+    required String title,
+    required String value,
+    required bool isDark,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+=======
+>>>>>>> Stashed changes
   /// Teknik özellik kartı oluşturucu yardımcı widget
   Widget _buildSpecItem(IconData icon, String title, String value, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(10),
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
       decoration: BoxDecoration(
         color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
         borderRadius: BorderRadius.circular(14),
@@ -359,6 +691,47 @@ class _VehicleDetailViewState extends State<VehicleDetailView> {
           color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
         ),
       ),
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, size: 20, color: AppColors.primary),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.lightTextSecondary,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+=======
+>>>>>>> Stashed changes
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -382,6 +755,10 @@ class _VehicleDetailViewState extends State<VehicleDetailView> {
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
           ),
         ],
       ),

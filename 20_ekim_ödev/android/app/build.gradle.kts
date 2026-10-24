@@ -5,7 +5,15 @@ plugins {
 }
 
 android {
+<<<<<<< Updated upstream
     namespace = "com.aracek.aracek"
+=======
+<<<<<<< HEAD
+    namespace = "com.aracek.app.aracek"
+=======
+    namespace = "com.aracek.aracek"
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +24,15 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+<<<<<<< Updated upstream
         applicationId = "com.aracek.aracek"
+=======
+<<<<<<< HEAD
+        applicationId = "com.aracek.app.aracek"
+=======
+        applicationId = "com.aracek.aracek"
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

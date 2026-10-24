@@ -1,3 +1,202 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: profile_view.dart
+// Görev: Kullanıcının profil bilgilerini, sanal kayıtlı kartlarını ve üyelik rozetini sunar.
+// Açıklama: İn-memory kullanıcı modeli ile entegre çalışır; kiralama istatistiklerini listeler.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/locale_controller.dart';
+import '../../authentication/controllers/auth_controller.dart';
+
+/// [ProfileView] widget'ı, kullanıcı profil yönetim ve özet ekranıdır.
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isEn = LocaleController.instance.isEnglish;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final user = AuthController.instance.currentUserNotifier.value;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppStrings.profileTitle(isEn)),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 550),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // -----------------------------------------------------------
+                  // Profil Başlık Kartı (Avatar, İsim, Rozet)
+                  // -----------------------------------------------------------
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        // Profil Avatarı
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              radius: 42,
+                              backgroundColor:
+                                  AppColors.primary.withValues(alpha: 0.15),
+                              child: const Icon(
+                                Icons.person,
+                                size: 48,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            const CircleAvatar(
+                              radius: 13,
+                              backgroundColor: AppColors.success,
+                              child: Icon(
+                                Icons.check,
+                                size: 14,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+
+                        // Kullanıcı Adı
+                        Text(
+                          user?.fullName ?? 'Murat Yılmaz',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+
+                        // E-posta ve Telefon
+                        Text(
+                          '${user?.email ?? "murat@aracek.com"} • ${user?.phone ?? "0555 123 45 67"}',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: isDark
+                                ? AppColors.darkTextSecondary
+                                : AppColors.lightTextSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Üyelik Rozeti
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.secondary.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: AppColors.secondary.withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.workspace_premium_rounded,
+                                size: 16,
+                                color: AppColors.secondary,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                user?.membershipTier ?? 'AraÇek VIP Üye',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.secondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // İstatistik Özet Kartları
+                  // -----------------------------------------------------------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          icon: Icons.directions_car_rounded,
+                          title: isEn ? 'Rented' : 'Kiralanan',
+                          value: '14 Araç',
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildStatCard(
+                          icon: Icons.calendar_month_rounded,
+                          title: isEn ? 'Total Days' : 'Sürüş Süresi',
+                          value: '42 Gün',
+                          isDark: isDark,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildStatCard(
+                          icon: Icons.star_rounded,
+                          title: isEn ? 'Trust Score' : 'Güven Puanı',
+                          value: '4.98',
+                          isDark: isDark,
+                          isWarning: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // -----------------------------------------------------------
+                  // Kayıtlı Sanal Kartlar
+                  // -----------------------------------------------------------
+                  Text(
+                    AppStrings.savedCards(isEn),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  _buildCardItem(
+                    cardTitle: 'AraÇek Platinum Visa',
+                    cardNumber: '•••• •••• •••• 5678',
+                    expiry: '12/28',
+                    isDark: isDark,
+                  ),
+                  const SizedBox(height: 10),
+                  _buildCardItem(
+                    cardTitle: 'Mastercard Bonus Sanal',
+                    cardNumber: '•••• •••• •••• 1042',
+                    expiry: '09/27',
+                    isDark: isDark,
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
@@ -254,10 +453,119 @@ class _ProfileViewState extends State<ProfileView> {
                       fontWeight: FontWeight.w500,
                       color: Colors.white70,
                     ),
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
                   ),
                 ],
               ),
             ),
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required IconData icon,
+    required String title,
+    required String value,
+    required bool isDark,
+    bool isWarning = false,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+        ),
+      ),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 22,
+            color: isWarning ? AppColors.warning : AppColors.primary,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 11,
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCardItem({
+    required String cardTitle,
+    required String cardNumber,
+    required String expiry,
+    required bool isDark,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Icon(Icons.credit_card, color: AppColors.primary),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  cardTitle,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '$cardNumber • Son Kullanma: $expiry',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark
+                        ? AppColors.darkTextSecondary
+                        : AppColors.lightTextSecondary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.check_circle_outline,
+              size: 20, color: AppColors.success),
+        ],
+=======
+>>>>>>> Stashed changes
             const SizedBox(height: 20),
 
             // 3. Ayarlar ve Seçenekler Listesi
@@ -339,6 +647,10 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ],
         ),
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
       ),
     );
   }

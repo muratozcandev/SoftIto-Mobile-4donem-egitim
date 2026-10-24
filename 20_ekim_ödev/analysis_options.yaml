@@ -14,6 +14,13 @@ analyzer:
     - build/**
     - android/**
     - ios/**
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    - web/**
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 
 linter:
   # The lint rules applied to this project can be customized in the

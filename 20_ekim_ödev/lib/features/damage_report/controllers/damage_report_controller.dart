@@ -1,3 +1,86 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: damage_report_controller.dart
+// Görev: AraÇek hasar ve teslimat fotoğraf çekimi sürecinin durumunu yönetir.
+// Açıklama: Aracın ön, arka, sol ve sağ açılardan fotoğraflanmasını simüle eder,
+// teslim noktası ve hasar notlarını kayıt altına alır.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../models/damage_report_model.dart';
+import '../../vehicles/controllers/vehicle_controller.dart';
+
+/// [DamageReportController] sınıfı, teslimat ve hasar kaydı adımlarını reaktif olarak koordine eder.
+class DamageReportController {
+  static final DamageReportController instance =
+      DamageReportController._internal();
+
+  DamageReportController._internal();
+
+  // ---------------------------------------------------------------------------
+  // Reaktif Durumlar: 4 Köşe Fotoğraf Çekim Durumu
+  // ---------------------------------------------------------------------------
+  /// Ön cephe çekim bayrağı
+  final ValueNotifier<bool> frontPhotoNotifier = ValueNotifier<bool>(false);
+
+  /// Arka cephe çekim bayrağı
+  final ValueNotifier<bool> rearPhotoNotifier = ValueNotifier<bool>(false);
+
+  /// Sol yan cephe çekim bayrağı
+  final ValueNotifier<bool> leftPhotoNotifier = ValueNotifier<bool>(false);
+
+  /// Sağ yan cephe çekim bayrağı
+  final ValueNotifier<bool> rightPhotoNotifier = ValueNotifier<bool>(false);
+
+  /// İşlem tipi ('Teslim Alma' veya 'Teslim Etme')
+  final ValueNotifier<String> reportTypeNotifier =
+      ValueNotifier<String>('Teslim Alma');
+
+  /// Seçili teslim lokasyonu
+  final ValueNotifier<String> locationNotifier =
+      ValueNotifier<String>('İstanbul Havalimanı (IST) - Kat P3');
+
+  /// Kaydedilmiş geçmiş raporlar listesi
+  final ValueNotifier<List<DamageReportModel>> savedReportsNotifier =
+      ValueNotifier<List<DamageReportModel>>([]);
+
+  // ---------------------------------------------------------------------------
+  // Yardımcı Hesaplamalar
+  // ---------------------------------------------------------------------------
+  /// Toplam çekilen fotoğraf sayısı (0 - 4 arası)
+  int get capturedCount {
+    int count = 0;
+    if (frontPhotoNotifier.value) count++;
+    if (rearPhotoNotifier.value) count++;
+    if (leftPhotoNotifier.value) count++;
+    if (rightPhotoNotifier.value) count++;
+    return count;
+  }
+
+  /// Tüm 4 açının fotoğraflanıp fotoğraflanmadığını denetler
+  bool get isAllCaptured => capturedCount == 4;
+
+  // ---------------------------------------------------------------------------
+  // Eylemler (Actions)
+  // ---------------------------------------------------------------------------
+  /// Belirli bir cephenin fotoğraf durumunu tersine çevirir veya çeker
+  void capturePhoto(String side) {
+    switch (side) {
+      case 'front':
+        frontPhotoNotifier.value = !frontPhotoNotifier.value;
+        break;
+      case 'rear':
+        rearPhotoNotifier.value = !rearPhotoNotifier.value;
+        break;
+      case 'left':
+        leftPhotoNotifier.value = !leftPhotoNotifier.value;
+        break;
+      case 'right':
+        rightPhotoNotifier.value = !rightPhotoNotifier.value;
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/foundation.dart';
 import '../models/damage_report_model.dart';
 import '../../../core/constants/app_assets.dart';
@@ -54,10 +137,65 @@ class DamageReportController {
         break;
       case 'right':
         rightPhotoNotifier.value = simulatedImage;
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
         break;
     }
   }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  /// Tüm fotoğrafları tek dokunuşla çekilmiş olarak işaretler (Hızlı demo için)
+  void captureAll() {
+    frontPhotoNotifier.value = true;
+    rearPhotoNotifier.value = true;
+    leftPhotoNotifier.value = true;
+    rightPhotoNotifier.value = true;
+  }
+
+  /// Fotoğraf durumlarını sıfırlar
+  void resetPhotos() {
+    frontPhotoNotifier.value = false;
+    rearPhotoNotifier.value = false;
+    leftPhotoNotifier.value = false;
+    rightPhotoNotifier.value = false;
+  }
+
+  /// Raporu kaydeder ve gerekirse aktif kiralanan aracı teslim edildi olarak günceller
+  DamageReportModel saveReport({
+    required String vehicleName,
+    required String notes,
+  }) {
+    final report = DamageReportModel(
+      id: 'REP_${DateTime.now().millisecondsSinceEpoch}',
+      vehicleName: vehicleName,
+      reportType: reportTypeNotifier.value,
+      frontCaptured: frontPhotoNotifier.value,
+      rearCaptured: rearPhotoNotifier.value,
+      leftCaptured: leftPhotoNotifier.value,
+      rightCaptured: rightPhotoNotifier.value,
+      notes: notes,
+      location: locationNotifier.value,
+      createdAt: DateTime.now(),
+    );
+
+    // Listeye ekle
+    final currentList = List<DamageReportModel>.from(savedReportsNotifier.value);
+    currentList.insert(0, report);
+    savedReportsNotifier.value = currentList;
+
+    // Eğer işlem 'Teslim Etme' ise aktif aracı iade et
+    if (reportTypeNotifier.value.contains('Etme') ||
+        reportTypeNotifier.value.contains('Drop Off')) {
+      VehicleController.instance.returnActiveVehicle();
+    }
+
+    return report;
+=======
+>>>>>>> Stashed changes
   /// Tüm 4 açının tek tıkla otomatik çekilmesini sağlayan hızlı demo metodu
   void captureAllAngles() {
     frontPhotoNotifier.value = AppAssets.carSedan;
@@ -109,5 +247,9 @@ class DamageReportController {
     leftPhotoNotifier.value = null;
     rightPhotoNotifier.value = null;
     damageNoteNotifier.value = '';
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
   }
 }

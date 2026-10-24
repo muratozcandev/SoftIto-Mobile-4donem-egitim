@@ -7,6 +7,12 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+	<string>Aracek</string>
+=======
+>>>>>>> Stashed changes
 	<string>AraÇek</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Araç teslimi ve hasar kaydı için fotoğraf çekilmesi gerekmektedir.</string>
@@ -14,6 +20,10 @@
 	<string>Araç teslimi ve hasar fotoğraflarını seçmek için galeri erişimi gereklidir.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Araç teslim alma ve bırakma noktasını belirlemek için konumunuza ihtiyaç duyulur.</string>
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

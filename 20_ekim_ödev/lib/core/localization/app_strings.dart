@@ -1,3 +1,182 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: app_strings.dart
+// Görev: Uygulama genelinde Türkçe ve İngilizce arayüz metinlerini yönetir.
+// Açıklama: Çoklu dil (localization) desteği için tüm string ifadeleri tek bir
+// merkezde anahtar-değer yapısıyla saklar.
+// ==============================================================================
+
+/// [AppStrings] sınıfı, uygulamanın dinamik Türkçe / İngilizce metinlerini sağlar.
+abstract class AppStrings {
+  // ---------------------------------------------------------------------------
+  // Genel Metinler
+  // ---------------------------------------------------------------------------
+  static String appName(bool isEn) => 'AraÇek';
+  static String slogan(bool isEn) =>
+      isEn ? 'Smart Car Rental & Inspection' : 'Akıllı Araç Kiralama ve Teslimat';
+  static String cancel(bool isEn) => isEn ? 'Cancel' : 'İptal';
+  static String confirm(bool isEn) => isEn ? 'Confirm' : 'Onayla';
+  static String success(bool isEn) => isEn ? 'Success' : 'Başarılı';
+  static String back(bool isEn) => isEn ? 'Back' : 'Geri';
+  static String continueText(bool isEn) => isEn ? 'Continue' : 'Devam Et';
+
+  // ---------------------------------------------------------------------------
+  // Kimlik Doğrulama (Auth)
+  // ---------------------------------------------------------------------------
+  static String login(bool isEn) => isEn ? 'Log In' : 'Giriş Yap';
+  static String register(bool isEn) => isEn ? 'Sign Up' : 'Kayıt Ol';
+  static String emailOrPhone(bool isEn) =>
+      isEn ? 'Email or Phone' : 'E-posta veya Telefon';
+  static String emailOrPhoneHint(bool isEn) =>
+      isEn ? 'e.g. murat@example.com or 05551234567' : 'Örn: murat@example.com veya 05551234567';
+  static String password(bool isEn) => isEn ? 'Password' : 'Şifre';
+  static String passwordHint(bool isEn) =>
+      isEn ? 'At least 6 characters' : 'En az 6 karakter';
+  static String fullName(bool isEn) => isEn ? 'Full Name' : 'Ad Soyad';
+  static String fullNameHint(bool isEn) =>
+      isEn ? 'Murat Yılmaz' : 'Murat Yılmaz';
+  static String phone(bool isEn) => isEn ? 'Phone Number' : 'Telefon Numarası';
+  static String noAccount(bool isEn) =>
+      isEn ? "Don't have an account? Sign Up" : 'Hesabınız yok mu? Kayıt Olun';
+  static String alreadyHaveAccount(bool isEn) =>
+      isEn ? 'Already have an account? Log In' : 'Zaten hesabınız var mı? Giriş Yapın';
+  static String fieldRequired(bool isEn) =>
+      isEn ? 'This field is required' : 'Bu alan zorunludur';
+  static String passwordTooShort(bool isEn) =>
+      isEn ? 'Password must be at least 6 characters' : 'Şifre en az 6 karakter olmalıdır';
+  static String invalidEmail(bool isEn) =>
+      isEn ? 'Please enter a valid email or phone' : 'Geçerli bir e-posta veya telefon giriniz';
+
+  // ---------------------------------------------------------------------------
+  // Ana Sayfa & Gezinim (Home & Navigation)
+  // ---------------------------------------------------------------------------
+  static String navHome(bool isEn) => isEn ? 'Explore' : 'Keşfet';
+  static String navDamage(bool isEn) => isEn ? 'AraÇek' : 'AraÇek';
+  static String navProfile(bool isEn) => isEn ? 'Profile' : 'Profil';
+  static String navSettings(bool isEn) => isEn ? 'Settings' : 'Ayarlar';
+
+  static String welcomeGreeting(bool isEn, String name) =>
+      isEn ? 'Hello, $name 👋' : 'Merhaba, $name 👋';
+  static String welcomeSubtitle(bool isEn) =>
+      isEn ? 'Find your ideal car & drive safely' : 'Hayalindeki aracı bul, güvenle yola çık';
+  static String searchHint(bool isEn) =>
+      isEn ? 'Search brand, model, type...' : 'Marka, model veya tür ara...';
+  static String activeRentalTitle(bool isEn) =>
+      isEn ? 'Active Rental Status' : 'Aktif Kiralama Durumu';
+  static String daysLeft(bool isEn, int count) =>
+      isEn ? '$count days left' : '$count gün kaldı';
+  static String returnVehicleBtn(bool isEn) =>
+      isEn ? 'Drop Off & Inspect' : 'Teslim Et ve Çek';
+  static String categories(bool isEn) => isEn ? 'Categories' : 'Kategoriler';
+  static String availableCars(bool isEn) =>
+      isEn ? 'Available Vehicles' : 'Müsait Araçlar';
+
+  // ---------------------------------------------------------------------------
+  // Filtreleme & Sıralama (Filter & Sort)
+  // ---------------------------------------------------------------------------
+  static String filterAll(bool isEn) => isEn ? 'All' : 'Tümü';
+  static String filterSUV(bool isEn) => 'SUV';
+  static String filterSedan(bool isEn) => 'Sedan';
+  static String filterElectric(bool isEn) => isEn ? 'Electric' : 'Elektrikli';
+  static String filterSport(bool isEn) => isEn ? 'Sport' : 'Spor';
+  static String filterHatchback(bool isEn) => 'Hatchback';
+
+  static String transmissionAuto(bool isEn) => isEn ? 'Automatic' : 'Otomatik';
+  static String transmissionManual(bool isEn) => isEn ? 'Manual' : 'Manuel';
+
+  static String sortPriceAsc(bool isEn) =>
+      isEn ? 'Price: Low to High' : 'Fiyat: Artan';
+  static String sortPriceDesc(bool isEn) =>
+      isEn ? 'Price: High to Low' : 'Fiyat: Azalan';
+
+  // ---------------------------------------------------------------------------
+  // Araç Detay & Kiralama (Vehicle Detail & Rental)
+  // ---------------------------------------------------------------------------
+  static String perDay(bool isEn) => isEn ? '/day' : '/gün';
+  static String dailyPriceLabel(bool isEn) =>
+      isEn ? 'Daily Rate' : 'Günlük Ücret';
+  static String rentNow(bool isEn) => isEn ? 'Rent Now' : 'Hemen Kirala';
+  static String rentalDuration(bool isEn) =>
+      isEn ? 'Rental Duration' : 'Kiralama Süresi';
+  static String daysCount(bool isEn, int days) =>
+      isEn ? '$days Days' : '$days Gün';
+  static String specs(bool isEn) =>
+      isEn ? 'Technical Specifications' : 'Teknik Özellikler';
+  static String fuel(bool isEn) => isEn ? 'Fuel' : 'Yakıt';
+  static String seats(bool isEn) => isEn ? 'Seats' : 'Koltuk';
+  static String engine(bool isEn) => isEn ? 'Engine/Power' : 'Motor/Güç';
+  static String range(bool isEn) => isEn ? 'Range' : 'Menzil';
+
+  // ---------------------------------------------------------------------------
+  // Ödeme (Payment)
+  // ---------------------------------------------------------------------------
+  static String paymentTitle(bool isEn) =>
+      isEn ? 'Payment Simulation' : 'Ödeme Simülasyonu';
+  static String cardNumber(bool isEn) =>
+      isEn ? 'Card Number' : 'Kart Numarası';
+  static String cardExpiry(bool isEn) =>
+      isEn ? 'Expiry (MM/YY)' : 'Son Kullanma (AA/YY)';
+  static String cardCvv(bool isEn) => isEn ? 'CVV' : 'CVV';
+  static String cardHolder(bool isEn) =>
+      isEn ? 'Cardholder Name' : 'Kart Üzerindeki İsim';
+  static String couponCode(bool isEn) =>
+      isEn ? 'Discount / Promo Code' : 'İndirim Kuponu';
+  static String applyCoupon(bool isEn) => isEn ? 'Apply' : 'Uygula';
+  static String couponApplied(bool isEn) =>
+      isEn ? 'Coupon applied: 15% discount!' : 'Kupon uygulandı: %15 indirim!';
+  static String totalToPay(bool isEn) =>
+      isEn ? 'Total Amount' : 'Toplam Ödenecek Tutar';
+  static String payAndRent(bool isEn) =>
+      isEn ? 'Approve Payment & Start Rental' : 'Ödemeyi Onayla ve Başlat';
+  static String rentalSuccessMsg(bool isEn) => isEn
+      ? 'Car rented successfully! Enjoy your safe drive.'
+      : 'Araç kiralama işlemi başarılı! İyi ve güvenli yolculuklar dileriz.';
+
+  // ---------------------------------------------------------------------------
+  // Hasar / Fotoğraf Çek & Teslimat (Damage & Photo Report)
+  // ---------------------------------------------------------------------------
+  static String damageReportTitle(bool isEn) =>
+      isEn ? 'AraÇek - Inspection Report' : 'AraÇek - Hasar & Teslimat Çekimi';
+  static String damageReportSubtitle(bool isEn) => isEn
+      ? 'Capture photos of all 4 sides before delivery to protect yourself.'
+      : 'Teslim alırken veya bırakırken aracın 4 köşesini fotoğraflayın, güvende kalın.';
+  static String frontSide(bool isEn) => isEn ? 'Front' : 'Ön Cephe';
+  static String backSide(bool isEn) => isEn ? 'Rear' : 'Arka Cephe';
+  static String leftSide(bool isEn) => isEn ? 'Left Side' : 'Sol Yan';
+  static String rightSide(bool isEn) => isEn ? 'Right Side' : 'Sağ Yan';
+  static String photoCaptured(bool isEn) =>
+      isEn ? 'Photo Recorded' : 'Fotoğraf Kaydedildi';
+  static String tapToCapture(bool isEn) =>
+      isEn ? 'Tap to Shoot' : 'Çekmek İçin Dokun';
+  static String damageNotes(bool isEn) =>
+      isEn ? 'Damage / Scratch Notes' : 'Hasar ve Çizik Notları';
+  static String damageNotesHint(bool isEn) => isEn
+      ? 'e.g. Tiny scratch on front bumper right side.'
+      : 'Örn: Ön tampon sağ altında hafif sürtme izi mevcut.';
+  static String deliveryLocation(bool isEn) =>
+      isEn ? 'Delivery Location' : 'Teslimat Noktası';
+  static String submitReport(bool isEn) =>
+      isEn ? 'Save Inspection Report' : 'Teslimat Raporunu Kaydet';
+  static String reportSavedMsg(bool isEn) => isEn
+      ? 'Inspection & delivery report saved with timestamp!'
+      : 'AraÇek hasar ve teslimat raporu zaman damgasıyla güvenle kaydedildi!';
+
+  // ---------------------------------------------------------------------------
+  // Profil & Ayarlar (Profile & Settings)
+  // ---------------------------------------------------------------------------
+  static String profileTitle(bool isEn) => isEn ? 'My Profile' : 'Profilim';
+  static String savedCards(bool isEn) =>
+      isEn ? 'Saved Payment Methods' : 'Kayıtlı Ödeme Kartlarım';
+  static String darkMode(bool isEn) =>
+      isEn ? 'Dark Mode (Obsidian)' : 'Koyu Tema (Obsidyen)';
+  static String language(bool isEn) => isEn ? 'Language' : 'Dil Seçimi';
+  static String helpFaq(bool isEn) =>
+      isEn ? 'Help & FAQ' : 'Yardım & Sıkça Sorulanlar';
+  static String logout(bool isEn) => isEn ? 'Log Out' : 'Oturumu Kapat';
+=======
+>>>>>>> Stashed changes
 import 'locale_controller.dart';
 
 /// [AppStrings] sınıfı, AraÇek uygulamasındaki tüm metinleri, başlıkları ve
@@ -228,4 +407,8 @@ class AppStrings {
     'reset_data': 'Reset Demo Data',
     'support': '24/7 Live Support',
   };
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 }

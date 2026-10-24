@@ -1,3 +1,26 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: damage_report_view.dart
+// Görev: AraÇek hasar tespit, fotoğraf çekimi ve teslimat raporlama ana ekranı.
+// Açıklama: Aracın 4 köşesinin fotoğraflanmasını, teslim lokasyonu seçimini,
+// hasar notlarını ve teslim tutanağı onayını yönetir.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/locale_controller.dart';
+import '../../vehicles/controllers/vehicle_controller.dart';
+import '../controllers/damage_report_controller.dart';
+import '../widgets/damage_photo_slot.dart';
+
+/// [DamageReportView] widget'ı, AraÇek fotoğraf çekim ve teslimat ekranıdır.
+class DamageReportView extends StatefulWidget {
+  const DamageReportView({super.key});
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/theme/theme_controller.dart';
@@ -16,12 +39,56 @@ class DamageReportView extends StatefulWidget {
     super.key,
     this.prefilledVehicleName,
   });
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 
   @override
   State<DamageReportView> createState() => _DamageReportViewState();
 }
 
 class _DamageReportViewState extends State<DamageReportView> {
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  final _reportController = DamageReportController.instance;
+  final _notesController = TextEditingController();
+
+  /// Desteklenen teslimat konumları
+  final List<String> _locations = [
+    'İstanbul Havalimanı (IST) - Kat P3',
+    'Sabiha Gökçen Havalimanı (SAW) - Gelen Yolcu',
+    'Kadıköy Rıhtım Ofisi',
+    'Levent Kanyon AVM Otopark',
+    'Ankara Esenboğa Havalimanı (ESB)',
+    'İzmir Adnan Menderes Havalimanı (ADB)',
+  ];
+
+  @override
+  void dispose() {
+    _notesController.dispose();
+    super.dispose();
+  }
+
+  /// Raporu kaydetme işlemi
+  void _submitReport() {
+    final isEn = LocaleController.instance.isEnglish;
+    final activeVehicle =
+        VehicleController.instance.activeRentalVehicleNotifier.value;
+    final vehicleTitle =
+        activeVehicle != null ? activeVehicle.fullName : 'Tesla Model Y Long Range';
+
+    final report = _reportController.saveReport(
+      vehicleName: vehicleTitle,
+      notes: _notesController.text.trim().isEmpty
+          ? (isEn ? 'No noticeable damages.' : 'Gözle görülür hasar tespit edilmedi.')
+          : _notesController.text.trim(),
+    );
+
+    // Başarılı onay modalı
+=======
+>>>>>>> Stashed changes
   final _damageNoteController = TextEditingController();
   late String _vehicleName;
 
@@ -79,10 +146,61 @@ class _DamageReportViewState extends State<DamageReportView> {
       vehicleName: _vehicleName,
     );
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.success.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.verified_rounded,
+                size: 48,
+                color: AppColors.success,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              isEn ? 'Inspection Complete' : 'AraÇek Tutanağı Onaylandı',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '${report.reportType} - ${report.vehicleName}\n\n'
+              '📍 ${report.location}\n'
+              '📸 ${_reportController.capturedCount} / 4 Fotoğraf Kaydedildi\n'
+              '🕒 ${report.createdAt.hour}:${report.createdAt.minute.toString().padLeft(2, '0')}',
+              style: const TextStyle(fontSize: 13, height: 1.4),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                _reportController.resetPhotos();
+                _notesController.clear();
+                setState(() {});
+              },
+              child: Text(isEn ? 'Done' : 'Tamam'),
+            ),
+          ],
+        ),
+=======
+>>>>>>> Stashed changes
         title: const Row(
           children: [
             Icon(Icons.verified_rounded, color: AppColors.success, size: 28),
@@ -117,12 +235,38 @@ class _DamageReportViewState extends State<DamageReportView> {
             child: const Text('Tamam'),
           ),
         ],
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    final isEn = LocaleController.instance.isEnglish;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeVehicle =
+        VehicleController.instance.activeRentalVehicleNotifier.value;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppStrings.damageReportTitle(isEn)),
+        actions: [
+          // Hızlı demo amaçlı tümünü çek butonu
+          IconButton(
+            tooltip: 'Tüm Açıları Otomatik Çek (Demo)',
+            onPressed: () {
+              _reportController.captureAll();
+              setState(() {});
+            },
+            icon: const Icon(Icons.auto_fix_high_rounded),
+=======
+>>>>>>> Stashed changes
     final isDark = ThemeController.instance.isDarkMode;
 
     return Scaffold(
@@ -142,11 +286,295 @@ class _DamageReportViewState extends State<DamageReportView> {
             },
             icon: const Icon(Icons.auto_fix_high_rounded, size: 16),
             label: const Text('Hızlı Çek'),
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
           ),
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 550),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // -----------------------------------------------------------
+                  // Açıklama ve Bilgilendirme Banner'ı
+                  // -----------------------------------------------------------
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.primary.withValues(alpha: 0.15),
+                          AppColors.secondary.withValues(alpha: 0.08),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.camera_alt_outlined,
+                          size: 32,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                activeVehicle != null
+                                    ? activeVehicle.fullName
+                                    : 'AraÇek Fotoğraf Sistemi',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                AppStrings.damageReportSubtitle(isEn),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: isDark
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.lightTextSecondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // İşlem Tipi Seçici: Teslim Alma vs Teslim Etme
+                  // -----------------------------------------------------------
+                  ValueListenableBuilder<String>(
+                    valueListenable: _reportController.reportTypeNotifier,
+                    builder: (context, reportType, _) {
+                      return SegmentedButton<String>(
+                        segments: [
+                          ButtonSegment<String>(
+                            value: 'Teslim Alma',
+                            icon: const Icon(Icons.key_rounded, size: 16),
+                            label: Text(isEn ? 'Pick Up' : 'Teslim Alma'),
+                          ),
+                          ButtonSegment<String>(
+                            value: 'Teslim Etme',
+                            icon: const Icon(Icons.assignment_return_rounded, size: 16),
+                            label: Text(isEn ? 'Drop Off' : 'Teslim Etme'),
+                          ),
+                        ],
+                        selected: {reportType},
+                        onSelectionChanged: (newSelection) {
+                          _reportController.reportTypeNotifier.value =
+                              newSelection.first;
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // 4 Köşe Fotoğraf Çekim Alanı (2x2 Grid)
+                  // -----------------------------------------------------------
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        isEn ? 'Vehicle 4 Angles' : 'Aracın 4 Cephesi',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      // İlerleme Durumu Rozeti
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: _reportController.isAllCaptured
+                              ? AppColors.success.withValues(alpha: 0.15)
+                              : AppColors.primary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          '${_reportController.capturedCount} / 4 ${isEn ? 'Ready' : 'Hazır'}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: _reportController.isAllCaptured
+                                ? AppColors.success
+                                : AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 4 Köşe Grid
+                  GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1.25,
+                    children: [
+                      // Ön Cephe
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _reportController.frontPhotoNotifier,
+                        builder: (context, captured, _) {
+                          return DamagePhotoSlot(
+                            title: AppStrings.frontSide(isEn),
+                            isCaptured: captured,
+                            icon: Icons.directions_car_rounded,
+                            onTap: () {
+                              _reportController.capturePhoto('front');
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      // Arka Cephe
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _reportController.rearPhotoNotifier,
+                        builder: (context, captured, _) {
+                          return DamagePhotoSlot(
+                            title: AppStrings.backSide(isEn),
+                            isCaptured: captured,
+                            icon: Icons.car_crash_rounded,
+                            onTap: () {
+                              _reportController.capturePhoto('rear');
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      // Sol Cephe
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _reportController.leftPhotoNotifier,
+                        builder: (context, captured, _) {
+                          return DamagePhotoSlot(
+                            title: AppStrings.leftSide(isEn),
+                            isCaptured: captured,
+                            icon: Icons.swipe_left_rounded,
+                            onTap: () {
+                              _reportController.capturePhoto('left');
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                      // Sağ Cephe
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _reportController.rightPhotoNotifier,
+                        builder: (context, captured, _) {
+                          return DamagePhotoSlot(
+                            title: AppStrings.rightSide(isEn),
+                            isCaptured: captured,
+                            icon: Icons.swipe_right_rounded,
+                            onTap: () {
+                              _reportController.capturePhoto('right');
+                              setState(() {});
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // Teslimat Lokasyonu Dropdown
+                  // -----------------------------------------------------------
+                  Text(
+                    AppStrings.deliveryLocation(isEn),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ValueListenableBuilder<String>(
+                    valueListenable: _reportController.locationNotifier,
+                    builder: (context, currentLoc, _) {
+                      return DropdownButtonFormField<String>(
+                        initialValue: currentLoc,
+                        isExpanded: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.location_on_outlined),
+                        ),
+                        items: _locations.map((loc) {
+                          return DropdownMenuItem(
+                            value: loc,
+                            child: Text(
+                              loc,
+                              style: const TextStyle(fontSize: 13),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (val) {
+                          if (val != null) {
+                            _reportController.locationNotifier.value = val;
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 18),
+
+                  // -----------------------------------------------------------
+                  // Hasar & Çizik Notları Metin Alanı
+                  // -----------------------------------------------------------
+                  Text(
+                    AppStrings.damageNotes(isEn),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextFormField(
+                    controller: _notesController,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      hintText: AppStrings.damageNotesHint(isEn),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // -----------------------------------------------------------
+                  // Raporu Kaydet Butonu
+                  // -----------------------------------------------------------
+                  ElevatedButton.icon(
+                    onPressed: _submitReport,
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    icon: const Icon(Icons.save_alt_rounded, size: 20),
+                    label: Text(
+                      AppStrings.submitReport(isEn),
+                      style: const TextStyle(fontSize: 16),
+=======
+>>>>>>> Stashed changes
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,10 +706,20 @@ class _DamageReportViewState extends State<DamageReportView> {
                       photo,
                       () => _triggerPhotoCapture('right', 'Sağ Yan'),
                       isDark,
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
                     ),
                   ),
                 ],
               ),
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+            ),
+=======
+>>>>>>> Stashed changes
               const SizedBox(height: 22),
 
               // 4. Hasar Notu ve Açıklama Alanı
@@ -364,11 +802,20 @@ class _DamageReportViewState extends State<DamageReportView> {
                 },
               ),
             ],
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
           ),
         ),
       ),
     );
   }
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 
   /// Fotoğraf kutucuğu oluşturucu yardımcı widget
   Widget _buildPhotoTile(
@@ -435,4 +882,8 @@ class _DamageReportViewState extends State<DamageReportView> {
       ),
     );
   }
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 }

@@ -1,3 +1,32 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: home_view.dart
+// Görev: AraÇek uygulamasının ana sayfası.
+// Açıklama: Karşılama başlığı, aktif kiralanan araç kartı, anlık arama,
+// gövde tipi ve vites filtreleri, fiyata göre sıralama ve araç listesini barındırır.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/localization/app_strings.dart';
+import '../../../core/localization/locale_controller.dart';
+import '../../authentication/controllers/auth_controller.dart';
+import '../../vehicles/controllers/vehicle_controller.dart';
+import '../../vehicles/models/vehicle_model.dart';
+import '../../vehicles/views/vehicle_detail_view.dart';
+import '../../vehicles/widgets/vehicle_card.dart';
+import '../widgets/active_rental_card.dart';
+
+/// [HomeView] widget'ı, ana vitrin ve araç keşif ekranıdır.
+class HomeView extends StatefulWidget {
+  /// Hasar/Teslimat sekmesine geçiş callback'i
+  final VoidCallback onNavigateToDamageReport;
+
+  const HomeView({super.key, required this.onNavigateToDamageReport});
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_colors.dart';
@@ -15,13 +44,43 @@ import '../../damage_report/views/damage_report_view.dart';
 /// aktif kiralama panosu ve araç listesini barındırır.
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
+<<<<<<< Updated upstream
   final TextEditingController _searchController = TextEditingController();
+=======
+<<<<<<< HEAD
+  final _vehicleController = VehicleController.instance;
+  final _searchController = TextEditingController();
+
+  /// Desteklenen filtre kategorileri
+  final List<String> _categories = [
+    'Tümü',
+    'SUV',
+    'Sedan',
+    'Elektrikli',
+    'Spor',
+    'Hatchback',
+  ];
+
+  /// Vites türleri
+  final List<String> _transmissions = [
+    'Tümü',
+    'Otomatik',
+    'Manuel',
+  ];
+=======
+  final TextEditingController _searchController = TextEditingController();
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
 
   @override
   void dispose() {
@@ -29,6 +88,78 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  @override
+  Widget build(BuildContext context) {
+    final isEn = LocaleController.instance.isEnglish;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final userName = AuthController.instance.currentUserName;
+
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // -----------------------------------------------------------
+                  // Üst Profil Karşılama ve Konum Başlığı
+                  // -----------------------------------------------------------
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppStrings.welcomeGreeting(isEn, userName),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            AppStrings.welcomeSubtitle(isEn),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.lightTextSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Konum Rozeti
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              size: 16,
+                              color: AppColors.primary,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              'İstanbul',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+=======
+>>>>>>> Stashed changes
   /// Filtre ve sıralama modal penceresini açan fonksiyon
   void _openFilterModal(BuildContext context) {
     final isDark = ThemeController.instance.isDarkMode;
@@ -183,10 +314,297 @@ class _HomeViewState extends State<HomeView> {
                                 fontSize: 12,
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w600,
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
                               ),
                             ),
                           ],
                         ),
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // Aktif Kiralanan Araç Kartı (Varsa Gösterilir)
+                  // -----------------------------------------------------------
+                  ValueListenableBuilder<Vehicle?>(
+                    valueListenable:
+                        _vehicleController.activeRentalVehicleNotifier,
+                    builder: (context, activeVehicle, _) {
+                      if (activeVehicle == null) return const SizedBox.shrink();
+
+                      return ValueListenableBuilder<int>(
+                        valueListenable:
+                            _vehicleController.activeRentalDaysLeftNotifier,
+                        builder: (context, daysLeft, _) {
+                          return ActiveRentalCard(
+                            vehicle: activeVehicle,
+                            daysLeft: daysLeft,
+                            onReturnTap: widget.onNavigateToDamageReport,
+                          );
+                        },
+                      );
+                    },
+                  ),
+
+                  // -----------------------------------------------------------
+                  // Arama Çubuğu
+                  // -----------------------------------------------------------
+                  TextField(
+                    controller: _searchController,
+                    onChanged: (val) {
+                      _vehicleController.setSearchQuery(val);
+                      setState(() {});
+                    },
+                    decoration: InputDecoration(
+                      hintText: AppStrings.searchHint(isEn),
+                      prefixIcon: const Icon(Icons.search_rounded),
+                      suffixIcon: _searchController.text.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear_rounded, size: 20),
+                              onPressed: () {
+                                _searchController.clear();
+                                _vehicleController.setSearchQuery('');
+                                setState(() {});
+                              },
+                            )
+                          : null,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // -----------------------------------------------------------
+                  // Kategori Çipleri (Gövde Tipi Filtresi)
+                  // -----------------------------------------------------------
+                  SizedBox(
+                    height: 40,
+                    child: ValueListenableBuilder<String>(
+                      valueListenable: _vehicleController.selectedTypeNotifier,
+                      builder: (context, selectedType, _) {
+                        return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _categories.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 8),
+                          itemBuilder: (context, index) {
+                            final cat = _categories[index];
+                            final isSelected = selectedType == cat;
+
+                            return ChoiceChip(
+                              label: Text(cat),
+                              selected: isSelected,
+                              onSelected: (_) {
+                                _vehicleController.setTypeFilter(cat);
+                                setState(() {});
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // -----------------------------------------------------------
+                  // Vites Seçimi ve Fiyat Sıralama Butonları
+                  // -----------------------------------------------------------
+                  Row(
+                    children: [
+                      // Vites Çipleri
+                      Expanded(
+                        child: ValueListenableBuilder<String>(
+                          valueListenable:
+                              _vehicleController.selectedTransmissionNotifier,
+                          builder: (context, selectedTrans, _) {
+                            return Wrap(
+                              spacing: 8,
+                              children: _transmissions.map((trans) {
+                                final isSelected = selectedTrans == trans;
+                                return FilterChip(
+                                  label: Text(
+                                    trans,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: isSelected
+                                          ? FontWeight.w700
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                  selected: isSelected,
+                                  onSelected: (_) {
+                                    _vehicleController
+                                        .setTransmissionFilter(trans);
+                                    setState(() {});
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          },
+                        ),
+                      ),
+
+                      // Fiyat Sıralama Düğmesi
+                      ValueListenableBuilder<bool?>(
+                        valueListenable:
+                            _vehicleController.sortPriceAscendingNotifier,
+                        builder: (context, sortAsc, _) {
+                          return OutlinedButton.icon(
+                            onPressed: () {
+                              _vehicleController.togglePriceSort();
+                              setState(() {});
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              side: BorderSide(
+                                color: sortAsc != null
+                                    ? AppColors.primary
+                                    : (isDark
+                                        ? AppColors.darkBorder
+                                        : AppColors.lightBorder),
+                              ),
+                            ),
+                            icon: Icon(
+                              sortAsc == null
+                                  ? Icons.swap_vert_rounded
+                                  : (sortAsc
+                                      ? Icons.arrow_upward_rounded
+                                      : Icons.arrow_downward_rounded),
+                              size: 16,
+                              color: sortAsc != null
+                                  ? AppColors.primary
+                                  : null,
+                            ),
+                            label: Text(
+                              sortAsc == null
+                                  ? (isEn ? 'Sort' : 'Fiyat')
+                                  : (sortAsc
+                                      ? AppStrings.sortPriceAsc(isEn)
+                                      : AppStrings.sortPriceDesc(isEn)),
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: sortAsc != null
+                                    ? AppColors.primary
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // -----------------------------------------------------------
+                  // Araç Listesi
+                  // -----------------------------------------------------------
+                  Builder(
+                    builder: (context) {
+                      final vehicles = _vehicleController.filteredVehicles;
+
+                      if (vehicles.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 40),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.search_off_rounded,
+                                  size: 48,
+                                  color: isDark
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.lightTextSecondary,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  isEn
+                                      ? 'No vehicles found matching filters'
+                                      : 'Filtrelere uygun araç bulunamadı',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: isDark
+                                        ? AppColors.darkTextSecondary
+                                        : AppColors.lightTextSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          // Geniş ekranda 2 sütunlu grid, mobilde tek sütun
+                          if (constraints.maxWidth > 580) {
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                                childAspectRatio: 0.88,
+                              ),
+                              itemCount: vehicles.length,
+                              itemBuilder: (context, index) {
+                                final vehicle = vehicles[index];
+                                return VehicleCard(
+                                  vehicle: vehicle,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            VehicleDetailView(vehicle: vehicle),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          } else {
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: vehicles.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 14),
+                              itemBuilder: (context, index) {
+                                final vehicle = vehicles[index];
+                                return VehicleCard(
+                                  vehicle: vehicle,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            VehicleDetailView(vehicle: vehicle),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+=======
+>>>>>>> Stashed changes
                       ],
                     ),
                     // Hızlı Kamera / AraÇek Butonu
@@ -366,6 +784,10 @@ class _HomeViewState extends State<HomeView> {
               },
             ),
           ],
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
         ),
       ),
     );

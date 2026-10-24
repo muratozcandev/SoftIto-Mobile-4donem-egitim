@@ -1,3 +1,138 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+// ==============================================================================
+// Dosya: rental_controller.dart
+// Görev: Kiralama süresi (1-31 gün), anlık toplam ücret hesabı, kasko seçeneği,
+// indirim kuponu ve simüle edilmiş ödeme sürecini yönetir.
+// Açıklama: Proje ve skill kılavuzuna birebir uygun şekilde ValueNotifier ile
+// reaktif olarak çalışır; harici sunucu veya gerçek kart işlemi yapmaz.
+// ==============================================================================
+
+import 'package:flutter/material.dart';
+import '../../vehicles/models/vehicle_model.dart';
+import '../../vehicles/controllers/vehicle_controller.dart';
+
+/// [RentalController] sınıfı, araç kiralama rezervasyonu ve ödeme hesaplamalarını yönetir.
+class RentalController {
+  /// Kiralanmak istenen araç
+  final Vehicle vehicle;
+
+  // ---------------------------------------------------------------------------
+  // Reaktif Durum Değişkenleri
+  // ---------------------------------------------------------------------------
+  /// Kiralama gün sayısı (Kılavuza göre 1 ile 31 gün arasında sınırlandırılmıştır)
+  final ValueNotifier<int> daysNotifier = ValueNotifier<int>(3);
+
+  /// Tam kasko ve yol yardım güvencesinin eklenip eklenmediği
+  final ValueNotifier<bool> insuranceNotifier = ValueNotifier<bool>(true);
+
+  /// Uygulanan indirim yüzdesi (Kupon kodu ile %15 veya %20)
+  final ValueNotifier<int> discountPercentNotifier = ValueNotifier<int>(0);
+
+  /// Uygulanan aktif kupon kodu
+  final ValueNotifier<String?> appliedCouponNotifier =
+      ValueNotifier<String?>(null);
+
+  /// Kiralama işleminin tamamlanıp tamamlanmadığını belirten bayrak
+  final ValueNotifier<bool> isCompletedNotifier = ValueNotifier<bool>(false);
+
+  RentalController({required this.vehicle});
+
+  // ---------------------------------------------------------------------------
+  // Fiyat Hesaplama Mantığı
+  // ---------------------------------------------------------------------------
+  /// Günlük kasko ve güvence paketi bedeli (Sabit 250 TL/gün)
+  static const int dailyInsurancePrice = 250;
+
+  /// Ham araç kiralama bedeli (Gün x Günlük Ücret)
+  int get rawRentalPrice => vehicle.dailyPrice * daysNotifier.value;
+
+  /// Toplam kasko bedeli
+  int get totalInsurancePrice =>
+      insuranceNotifier.value ? dailyInsurancePrice * daysNotifier.value : 0;
+
+  /// İndirim tutarı
+  int get discountAmount {
+    final subtotal = rawRentalPrice + totalInsurancePrice;
+    return (subtotal * discountPercentNotifier.value) ~/ 100;
+  }
+
+  /// Ödenecek nihai toplam tutar (Anlık hesaplanır)
+  int get totalPrice {
+    final subtotal = rawRentalPrice + totalInsurancePrice;
+    return subtotal - discountAmount;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Süre Değiştirme Metotları (1 - 31 Gün Sınırı)
+  // ---------------------------------------------------------------------------
+  /// Gün sayısını belirli bir değere ayarlar (1-31 aralığı kontrolü ile)
+  void setDays(int value) {
+    if (value < 1) {
+      daysNotifier.value = 1;
+    } else if (value > 31) {
+      daysNotifier.value = 31;
+    } else {
+      daysNotifier.value = value;
+    }
+  }
+
+  /// Gün sayısını 1 arttırır (Maksimum 31)
+  void incrementDays() {
+    if (daysNotifier.value < 31) {
+      daysNotifier.value++;
+    }
+  }
+
+  /// Gün sayısını 1 azaltır (Minimum 1)
+  void decrementDays() {
+    if (daysNotifier.value > 1) {
+      daysNotifier.value--;
+    }
+  }
+
+  /// Kasko tercihini açar/kapatır
+  void toggleInsurance() {
+    insuranceNotifier.value = !insuranceNotifier.value;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Kupon Kodu Uygulama
+  // ---------------------------------------------------------------------------
+  /// Örnek kupon kodlarını doğrular ('ARACEK15' veya 'SOFTITO')
+  bool applyCoupon(String code) {
+    final trimmed = code.trim().toUpperCase();
+    if (trimmed == 'ARACEK15') {
+      discountPercentNotifier.value = 15;
+      appliedCouponNotifier.value = trimmed;
+      return true;
+    } else if (trimmed == 'SOFTITO') {
+      discountPercentNotifier.value = 20;
+      appliedCouponNotifier.value = trimmed;
+      return true;
+    }
+    return false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Kiralama Onay Simülasyonu
+  // ---------------------------------------------------------------------------
+  /// Ödemeyi onaylar, aracı ana sayfadaki aktif kiralama listesine ekler
+  void completeRental() {
+    isCompletedNotifier.value = true;
+    VehicleController.instance.setActiveRental(vehicle, daysNotifier.value);
+  }
+
+  /// Kaynak temizliği
+  void dispose() {
+    daysNotifier.dispose();
+    insuranceNotifier.dispose();
+    discountPercentNotifier.dispose();
+    appliedCouponNotifier.dispose();
+    isCompletedNotifier.dispose();
+=======
+>>>>>>> Stashed changes
 import 'package:flutter/foundation.dart';
 import '../models/rental_order_model.dart';
 import '../../vehicles/models/vehicle_model.dart';
@@ -106,5 +241,9 @@ class RentalController {
     final updatedPast = List<RentalOrder>.from(pastRentalsNotifier.value)
       ..insert(0, order);
     pastRentalsNotifier.value = updatedPast;
+<<<<<<< Updated upstream
+=======
+>>>>>>> d4ded119675a6099138e37283240a788d3a435d7
+>>>>>>> Stashed changes
   }
 }
