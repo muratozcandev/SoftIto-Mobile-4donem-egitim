@@ -1,32 +1,35 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../core/constants/app_colors.dart';
-import '../../core/utils/date_utils.dart';
-import '../../providers/curriculum_provider.dart';
-import '../../providers/question_provider.dart';
-import '../question_tracker/widgets/add_question_sheet.dart';
-import 'widgets/course_pie_chart.dart';
-import 'widgets/weekly_bar_chart.dart';
+import 'package:flutter/material.dart'; // Flutter Material UI kütüphanesi
+import 'package:provider/provider.dart'; // Provider durum erişimi
+import '../../core/constants/app_colors.dart'; // Renk sabitleri
+import '../../core/utils/date_utils.dart'; // Tarih ve süre formatlayıcı
+import '../../providers/curriculum_provider.dart'; // Müfredat bilgileri
+import '../../providers/question_provider.dart'; // Soru ve çalışma istatistikleri
+import '../question_tracker/widgets/add_question_sheet.dart'; // Soru ekleme formu
+import 'widgets/course_pie_chart.dart'; // Ders bazlı pasta grafik
+import 'widgets/weekly_bar_chart.dart'; // 7 günlük çubuk grafik
 
+/// Kullanıcının çözdüğü soruların, çalışma sürelerinin ve ders performanslarının kapsamlı analizini sunan İstatistik ekranı
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Soru ve müfredat verilerini izler
     final questionProv = context.watch<QuestionProvider>();
     final curriculumProv = context.watch<CurriculumProvider>();
     final theme = Theme.of(context);
 
-    final totalQuestions = questionProv.totalAllQuestions;
-    final totalNet = questionProv.totalAllNetScore;
-    final accuracy = questionProv.overallAccuracyRate;
-    final totalStudyMinutes = questionProv.totalAllStudyMinutes;
-    final courseStats = questionProv.getCourseStats();
-    final last7Days = questionProv.getLast7DaysQuestionCounts();
+    // Kümülatif metrikler
+    final totalQuestions = questionProv.totalAllQuestions; // Çözülen toplam soru sayısı
+    final totalNet = questionProv.totalAllNetScore; // Toplam net puan
+    final accuracy = questionProv.overallAccuracyRate; // Genel doğruluk yüzdesi
+    final totalStudyMinutes = questionProv.totalAllStudyMinutes; // Toplam çalışılan süre (dk)
+    final courseStats = questionProv.getCourseStats(); // Ders bazlı istatistik dökümü
+    final last7Days = questionProv.getLast7DaysQuestionCounts(); // Son 7 günün soru sayıları
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('İstatistik ve Analiz'),
+        title: const Text('İstatistik ve Analiz'), // Sayfa başlığı
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -34,9 +37,10 @@ class StatisticsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Overall Stats Cards
+            // --- 1. Genel Özet Metrik Kutuları (2x2 Düzen) ---
             Row(
               children: [
+                // Toplam Net Kutusu
                 Expanded(
                   child: _buildMetricTile(
                     context,
@@ -47,6 +51,7 @@ class StatisticsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
+                // Toplam Soru Kutusu
                 Expanded(
                   child: _buildMetricTile(
                     context,
@@ -61,6 +66,7 @@ class StatisticsScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
+                // Genel Başarı Yüzdesi Kutusu
                 Expanded(
                   child: _buildMetricTile(
                     context,
@@ -71,6 +77,7 @@ class StatisticsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
+                // Toplam Çalışma Süresi Kutusu
                 Expanded(
                   child: _buildMetricTile(
                     context,
@@ -84,22 +91,22 @@ class StatisticsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Empty State Protection Rule from SKILL.md
+            // Eğer henüz hiç soru girilmemişse boş durum kartı gösterir, veri varsa grafikleri çizer
             if (totalQuestions == 0)
-              _buildEmptyStateCard(context)
+              _buildEmptyStateCard(context) // Boş durum yönlendirmesi
             else ...[
-              // Weekly Bar Chart
+              // --- 2. Son 7 Günlük Soru Çubuk Grafiği ---
               WeeklyBarChart(last7DaysData: last7Days),
               const SizedBox(height: 20),
 
-              // Course Pie Chart
+              // --- 3. Ders Bazlı Soru Dağılımı Pasta Grafiği ---
               CoursePieChart(
                 courseStats: courseStats,
                 curriculumProv: curriculumProv,
               ),
               const SizedBox(height: 24),
 
-              // Course Performance Breakdown Table
+              // --- 4. Ders Bazlı Başarı Karnesi Tablosu ---
               Text(
                 'Ders Bazlı Başarı Karnesi',
                 style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -108,7 +115,7 @@ class StatisticsScreen extends StatelessWidget {
               _buildCourseBreakdown(context, curriculumProv, courseStats),
               const SizedBox(height: 24),
 
-              // Question Logs History
+              // --- 5. Son Soru Çözüm Geçmişi Listesi ---
               Text(
                 'Son Soru Çözüm Kayıtları',
                 style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -123,6 +130,7 @@ class StatisticsScreen extends StatelessWidget {
     );
   }
 
+  /// Hiç veri girilmediğinde kullanıcıyı ilk soru kaydını eklemeye teşvik eden kart
   Widget _buildEmptyStateCard(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
@@ -166,6 +174,7 @@ class StatisticsScreen extends StatelessWidget {
               style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
             ),
             const SizedBox(height: 20),
+            // İlk Soru Kaydını Ekleme Butonu
             ElevatedButton.icon(
               onPressed: () => AddQuestionSheet.show(context),
               icon: const Icon(Icons.add, size: 18),
@@ -177,12 +186,13 @@ class StatisticsScreen extends StatelessWidget {
     );
   }
 
+  /// Üst kısımdaki özet metrik kutusunu oluşturan yardımcı widget
   Widget _buildMetricTile(
     BuildContext context, {
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
+    required String title, // Küçük başlık
+    required String value, // Büyük değer (Örn: '120.50')
+    required IconData icon, // İkon
+    required Color color, // Vurgu rengi
   }) {
     final theme = Theme.of(context);
     return Container(
@@ -228,6 +238,7 @@ class StatisticsScreen extends StatelessWidget {
     );
   }
 
+  /// Tüm derslerin tek tek toplam soru, doğru/yanlış, net ve başarı oranını gösteren karne kartları
   Widget _buildCourseBreakdown(
     BuildContext context,
     CurriculumProvider curriculumProv,
@@ -258,6 +269,7 @@ class StatisticsScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
+              // Ders Adı ve Net Skoru
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -282,6 +294,7 @@ class StatisticsScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
+              // Çözülen Soru Dökümü ve Başarı Yüzdesi
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -294,6 +307,7 @@ class StatisticsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 12,
+                      // Başarı %70 üstüyse yeşil, altındaysa sarı/amber renk
                       color: accuracy >= 70 ? AppColors.completed : AppColors.needsReview,
                     ),
                   ),
@@ -306,9 +320,10 @@ class StatisticsScreen extends StatelessWidget {
     );
   }
 
+  /// Son çözülen 6 soru kaydını listeleyen ve silme imkanı tanıyan bileşen
   Widget _buildLogsList(BuildContext context, QuestionProvider questionProv) {
     final theme = Theme.of(context);
-    final logs = questionProv.logs.take(6).toList();
+    final logs = questionProv.logs.take(6).toList(); // Son 6 kaydı al
 
     return Column(
       children: logs.map((log) {
@@ -327,12 +342,14 @@ class StatisticsScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
+              // Sol renkli çizgi
               Container(
                 width: 4,
                 height: 36,
                 decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)),
               ),
               const SizedBox(width: 10),
+              // Ders Adı ve Doğru/Yanlış/Tarih Bilgisi
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,6 +366,7 @@ class StatisticsScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              // Net ve Toplam Soru Sayısı
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -364,9 +382,10 @@ class StatisticsScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 4),
+              // Kaydı Silme Butonu
               IconButton(
                 icon: const Icon(Icons.delete_outline, size: 18, color: Colors.grey),
-                onPressed: () => questionProv.deleteQuestionLog(log.id),
+                onPressed: () => questionProv.deleteQuestionLog(log.id), // Kaydı sil
                 tooltip: 'Kaydı Sil',
               ),
             ],

@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/utils/date_utils.dart';
-import '../../../providers/curriculum_provider.dart';
-import '../../../providers/question_provider.dart';
+import 'package:flutter/material.dart'; // Flutter Material UI kütüphanesi
+import 'package:provider/provider.dart'; // Provider durum erişimi
+import '../../../core/constants/app_colors.dart'; // Ders renk sabitleri
+import '../../../core/utils/date_utils.dart'; // Süre metin formatlayıcı (X sa Y dk)
+import '../../../providers/curriculum_provider.dart'; // Ders listesine erişim için provider
+import '../../../providers/question_provider.dart'; // Çalışma seansını kaydetmek için provider
 
+/// Pomodoro veya kronometre çalışması bittiğinde, sürenin hangi derse ait olduğunu sorup veritabanına kaydeden diyalog penceresi
 class SaveSessionDialog extends StatefulWidget {
-  final int durationMinutes;
-  final String sessionType;
+  final int durationMinutes; // Tamamlanan çalışma süresi (dakika)
+  final String sessionType; // Çalışma sayacı türü ('pomodoro' veya 'stopwatch')
 
   const SaveSessionDialog({
     super.key,
@@ -15,6 +16,7 @@ class SaveSessionDialog extends StatefulWidget {
     required this.sessionType,
   });
 
+  /// Bu diyalog penceresini ekranda gösteren statik yardımcı fonksiyon
   static Future<void> show(
     BuildContext context, {
     required int durationMinutes,
@@ -22,7 +24,7 @@ class SaveSessionDialog extends StatefulWidget {
   }) {
     return showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: false, // Kullanıcı boş alana tıklayarak yanlışlıkla kapatamasın
       builder: (context) => SaveSessionDialog(
         durationMinutes: durationMinutes,
         sessionType: sessionType,
@@ -35,12 +37,13 @@ class SaveSessionDialog extends StatefulWidget {
 }
 
 class _SaveSessionDialogState extends State<SaveSessionDialog> {
-  String? _selectedCourseId;
-  final _noteController = TextEditingController();
+  String? _selectedCourseId; // Kullanıcının seçtiği dersin ID'si (Örn: 'tarih')
+  final _noteController = TextEditingController(); // İsteğe bağlı seans notu denetleyicisi
 
   @override
   void initState() {
     super.initState();
+    // İlk dersi varsayılan olarak seçili başlatır
     final courses = context.read<CurriculumProvider>().courses;
     if (courses.isNotEmpty) {
       _selectedCourseId = courses.first.id;
@@ -49,16 +52,17 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
 
   @override
   void dispose() {
-    _noteController.dispose();
+    _noteController.dispose(); // Bellek sızıntısını önlemek için metin denetleyicisini kapatır
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final courses = context.watch<CurriculumProvider>().courses;
+    final courses = context.watch<CurriculumProvider>().courses; // Dersler listesi
 
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), // Köşeleri 20px yuvarlatılmış diyalog kutusu
+      // Diyalog Başlık Satırı
       title: Row(
         children: [
           Container(
@@ -78,11 +82,13 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
           ),
         ],
       ),
+      // Diyalog İçeriği
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Tamamlanan Süreyi Gösteren Bilgi Rozeti
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -101,11 +107,14 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
               ),
             ),
             const SizedBox(height: 16),
+            
+            // Ders Seçimi Başlığı
             const Text(
               'Hangi derse çalıştın?',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
             const SizedBox(height: 8),
+            // Ders Seçim Hapları (Wrap ile alt alta dizilebilen çipler)
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -122,12 +131,14 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   ),
                   onSelected: (val) {
-                    if (val) setState(() => _selectedCourseId = c.id);
+                    if (val) setState(() => _selectedCourseId = c.id); // Seçili dersi güncelle
                   },
                 );
               }).toList(),
             ),
             const SizedBox(height: 16),
+            
+            // İsteğe Bağlı Oturum Notu Alanı
             TextField(
               controller: _noteController,
               decoration: const InputDecoration(
@@ -138,19 +149,21 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
           ],
         ),
       ),
+      // Alt İşlem Butonları (İptal ve Kaydet)
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context), // Kaydetmeden kapat
           child: const Text('İptal'),
         ),
         ElevatedButton(
-          onPressed: _saveSession,
+          onPressed: _saveSession, // Seansı veritabanına kaydet
           child: const Text('Kaydet'),
         ),
       ],
     );
   }
 
+  /// Seçilen dersi ve süreyi QuestionProvider üzerinden Hive veritabanına ekleyen metot
   void _saveSession() {
     if (_selectedCourseId == null) return;
     context.read<QuestionProvider>().addStudySession(
@@ -161,7 +174,8 @@ class _SaveSessionDialogState extends State<SaveSessionDialog> {
           note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
         );
 
-    Navigator.pop(context);
+    Navigator.pop(context); // Diyaloğu kapat
+    // Başarı bildirimi göster
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Çalışma süresi başarıyla kaydedildi!'),
