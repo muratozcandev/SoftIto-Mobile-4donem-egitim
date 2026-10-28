@@ -23,7 +23,7 @@ class Urun{
         this.favoriMi = false,
     });
 
-    Urun copywith({ //favori kısmı için copyWith kullanırız. Sadece tek bir değer değiştirmke istiyoruz. Bu da true false değeri(fav için)
+    Urun copyWith({ //favori kısmı için copyWith kullanırız. Sadece tek bir değer değiştirmke istiyoruz. Bu da true false değeri(fav için)
         int? id,
         String? baslik,
         String? aciklama,
